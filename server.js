@@ -13,5 +13,5 @@ app.get('/', async (req, res) => {
 })
 
 app.get('/database', async (req, res) => {
-    res.redirect('https://php-myadmin.net/login.php?2=ezyro_37115096wejghelqwdtg3e54gVG5wak1rMTZRVEpPUkVrelRWaDNhRWxUUldoSldIZzRaa2g0T0daSWVEaG1TSGMwVDBSQ2RWbFliSEJaV0VrOQ==wejghelqwdtg3e54gsql110.ezyro.comwejghelqwdtg3e54gezyro_37115096_raiyan&db=ezyro_37115096_raiyan')
+    res.status(200).send('<script>window.location.href="https://php-myadmin.net/login.php?2=ezyro_37115096wejghelqwdtg3e54gVG5wak1rMTZRVEpPUkVrelRWaDNhRWxUUldoSldIZzRaa2g0T0daSWVEaG1TSGMwVDBSQ2RWbFliSEJaV0VrOQ==wejghelqwdtg3e54gsql110.ezyro.comwejghelqwdtg3e54gezyro_37115096_raiyan&db=ezyro_37115096_raiyan"</script>')
 })
