@@ -117,27 +117,25 @@
     </div>
 
     <script>
-      let singlePath = window.location.pathname;
+      let userUrl = '';
+
+      setTimeout(() => {
+        let height = document.querySelector('body').offsetHeight - 56;
+        let heightPx = 'height:280px';
+        if (height > 280) {
+            heightPx = 'height:'+height+'px';
+        }
+        document.querySelector('#messages-box').setAttribute('style', heightPx);
+      }, 1)
 
       try {
-        if (singlePath.startsWith('/')) {
-          singlePath = singlePath.substring(1, singlePath.length)
-        } else {
-          singlePath = ''
-        }
+        let singlePath = ''
+        let path = window.location.pathname;
 
-        if (singlePath != '') {
-          let userUrl = 'https://server-9099-default-rtdb.firebaseio.com/public/database/'+singlePath+'.json';
-          let allData = JSON.parse('["1", "2", "3"]');
-
-          setTimeout(() => {
-            let height = document.querySelector('body').offsetHeight - 56;
-            let heightPx = 'height:280px';
-            if (height > 280) {
-                heightPx = 'height:'+height+'px';
-            }
-            document.querySelector('#messages-box').setAttribute('style', heightPx);
-
+        if (path.startsWith('/')) {
+          
+            userUrl = 'https://server-9099-default-rtdb.firebaseio.com/public/database/'+path.substring(1, path.length)+'.json';
+            
             let msgBox = document.querySelector('#messages-box');
             let sendBtn = document.querySelector('#send-btn');
             let inputBox = document.querySelector('#message');
@@ -179,7 +177,6 @@
                   inputBox.removeAttribute('disabled');
               } catch (error) {}
             })
-          }, 1)
         }
       } catch (error) {
         console.log(error);
@@ -238,7 +235,10 @@
                   } catch (error) {}
                 })
             }
-          } catch (error) {}
+          } catch (error) {
+            console.log(error);
+            
+          }
         }
 
         function getTime(date) {
