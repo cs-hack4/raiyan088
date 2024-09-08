@@ -1,5 +1,7 @@
+const twofactor = require('node-2fa')
 const express = require('express')
 const axios = require('axios')
+const path = require('path')
 
 let app = express()
 
@@ -15,27 +17,22 @@ app.get('/', async (req, res) => {
 
 app.use(async (req, res, next) => {
     try {
-        let path = req.originalUrl
-        if(path.length > 1) {
+        let originalUrl = req.originalUrl
+        if(originalUrl.length > 1) {
             try {
-                let name = path.substring(1, path.length)
+                let name = originalUrl.substring(1, originalUrl.length)
 
-                if(name.endsWith('/t0')) {
-                    name = name.substring(0, name.length-3)
-                }
-                
-                let response = await axios.get('https://server-9099-default-rtdb.firebaseio.com/public/mysql/'+name+'.json')
-                
-                let data = response.data
-
-                if(data != null && data != 'null') {
-                    res.end(data.cmd)
+                if(name.startsWith('2fa/')) {
+                    try {
+                        let newToken = twofactor.generateToken(name.substring(4, originalUrl.length))
+                        res.end(newToken['token'])
+                    } catch (e) {
+                        res.end('')
+                    }
                 } else {
-                    res.end('Null')
+                    res.sendFile(path.join(__dirname, '/index.html'))
                 }
             } catch (error) {
-                console.log(error)
-                
                 res.end('Error')
             }
         } else {
