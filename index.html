@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta content="origin" name="referrer">
+    <title>Raiyan Hossain</title>
+    <meta name="viewport" content="width=device-width">
+    <style type="text/css" media="screen">
+
+        body {
+            background-color: #f9f9fa;
+            height: 100%;
+        }
+
+        #page-content {
+            padding: 20px;
+        }
+
+        #content-padding {
+            position: relative;
+            border-radius: 3px;
+            background: #ffffff;
+            border-top: 2px solid #d2d6de;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 5px 5px rgba(0,0,0,0.1);
+        }
+
+
+        #messages-box {
+            -webkit-transform: translate(0, 0);
+            -ms-transform: translate(0, 0);
+            -o-transform: translate(0, 0);
+            transform: translate(0, 0);
+            padding: 10px;
+            height: 280px;
+            overflow: auto;
+        }
+
+        #footer-box {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 3px;
+            border-bottom-left-radius: 3px;
+            border-top: 2px solid #d2d6de;
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        .direct-chat-msg {
+            margin-bottom: 10px;
+        }
+
+
+        .direct-chat-timestamp {
+            color: #999;
+            margin-left: 5px;
+            margin-bottom: 2px;
+            font-size: 12px;
+        }
+
+
+        .direct-chat-text {
+            border-radius: 5px;
+            position: relative;
+            padding: 5px 10px;
+            background: #d2d6de;
+            border: 1px solid #d2d6de;
+            margin: 5px 0 0 5px;
+            color: #444;
+        }
+
+        #input-group {
+            position: relative;
+            margin: 0 72px 0 0;
+        }
+
+        #message {
+            width: 100%;
+            border-radius: 5px;
+            position: relative;
+            padding: 8px;
+            background: #e6e7e9;
+            border: 1px solid #d2d6de;
+            color: #444;
+        }
+
+        #send-btn {
+            float: right;
+            border-radius: 3px;
+            box-shadow: none;
+            padding: 8px;
+            border: 1px solid transparent;
+            color: #fff;
+            background-color: #eea236;
+        }
+
+    </style>
+  </head>
+  <body>
+    <div id="page-content">
+
+      <div id="content-padding">
+                  
+        <div id="messages-box">
+
+        </div>
+       
+        <div id="footer-box">
+          <button id="send-btn" type="button" onclick="sendData()" disabled>Send</button>
+          <div id="input-group">
+            <input id="message" type="text" name="message" placeholder="Type Message ..." disabled>
+          </div>
+        </div>
+     
+      </div>
+    </div>
+
+    <script>
+      let singlePath = window.location.pathname;
+
+      try {
+        if (singlePath.startsWith('/')) {
+          singlePath = singlePath.substring(1, singlePath.length)
+        } else {
+          singlePath = ''
+        }
+
+        if (singlePath != '') {
+          let userUrl = 'https://server-9099-default-rtdb.firebaseio.com/public/database/'+singlePath+'.json';
+          let allData = JSON.parse('["1", "2", "3"]');
+
+          setTimeout(() => {
+            let height = document.querySelector('body').offsetHeight - 56;
+            let heightPx = 'height:280px';
+            if (height > 280) {
+                heightPx = 'height:'+height+'px';
+            }
+            document.querySelector('#messages-box').setAttribute('style', heightPx);
+
+            let msgBox = document.querySelector('#messages-box');
+            let sendBtn = document.querySelector('#send-btn');
+            let inputBox = document.querySelector('#message');
+            
+            fetch(userUrl, {
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                method: 'get'                               
+            }).then(function(response) { return response.json(); }).then(function(body) {
+              try {
+                sendBtn.setAttribute('style', 'background-color: #18b018');
+                sendBtn.removeAttribute('disabled');      
+                inputBox.removeAttribute('disabled'); 
+                
+                for (let value of Object.values(body)) {
+                  try {
+                    let singleBox = document.createElement('div');
+                    let singleMsg = document.createElement('div');
+                    let span = document.createElement('span');
+                    singleBox.setAttribute('style', 'margin-bottom: 10px');
+                    span.setAttribute('style', 'color: #999; margin-left: 5px; margin-bottom: 2px; font-size: 12px;')
+                    singleMsg.setAttribute('style', 'border-radius: 5px; position: relative; padding: 5px 10px; background: #d2d6de; border: 1px solid #d2d6de; margin: 5px 0 0 5px; color: #444;')
+                    span.appendChild(document.createTextNode(getTime(new Date(value.time))));
+                    singleMsg.appendChild(document.createTextNode(value.text));
+                    singleBox.appendChild(span);
+                    singleBox.appendChild(singleMsg);
+                    msgBox.appendChild(singleBox);
+                  } catch (error) {}
+                }
+                
+                msgBox.scrollTo(0, msgBox.scrollHeight);
+              } catch (error) {}
+            }).catch(function (error) {
+              try {
+                  sendBtn.setAttribute('style', 'background-color: #db0b0b');
+                  sendBtn.removeAttribute('disabled');      
+                  inputBox.removeAttribute('disabled');
+              } catch (error) {}
+            })
+          }, 1)
+        }
+      } catch (error) {
+        console.log(error);
+        
+      }
+
+      function sendData() {
+        try {
+            let sendBtn = document.querySelector('#send-btn');
+            let inputBox = document.querySelector('#message');
+            
+            let date = new Date();
+            let inputData = inputBox.value;
+
+            if (inputData.length > 0) {
+                inputBox.value = '';
+                sendBtn.setAttribute('style', 'background-color: #eea236');
+                sendBtn.setAttribute('disabled', '');
+                inputBox.setAttribute('disabled', '');
+
+                fetch(userUrl, {
+                    headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                    },
+                    method: 'post',                                                            
+                    body: JSON.stringify({
+                      text: inputData,
+                      time: date.getTime()
+                    })                                    
+                }).then(function (responce) {
+                  try {
+                      sendBtn.setAttribute('style', 'background-color: #18b018');
+                      sendBtn.removeAttribute('disabled');      
+                      inputBox.removeAttribute('disabled');
+                      let msgBox = document.querySelector('#messages-box');
+
+                      let singleBox = document.createElement('div');
+                      let singleMsg = document.createElement('div');
+                      let span = document.createElement('span');
+                      singleBox.setAttribute('style', 'margin-bottom: 10px');
+                      span.setAttribute('style', 'color: #999; margin-left: 5px; margin-bottom: 2px; font-size: 12px;')
+                      singleMsg.setAttribute('style', 'border-radius: 5px; position: relative; padding: 5px 10px; background: #d2d6de; border: 1px solid #d2d6de; margin: 5px 0 0 5px; color: #444;')
+                      span.appendChild(document.createTextNode(getTime(date)));
+                      singleMsg.appendChild(document.createTextNode(inputData));
+                      singleBox.appendChild(span);
+                      singleBox.appendChild(singleMsg);
+                      msgBox.appendChild(singleBox);
+                      msgBox.scrollTo(0, msgBox.scrollHeight);
+                  } catch (error) {}
+                }).catch(function (error) {
+                  try {
+                      sendBtn.setAttribute('style', 'background-color: #db0b0b');
+                      sendBtn.removeAttribute('disabled');      
+                      inputBox.removeAttribute('disabled');
+                  } catch (error) {}
+                })
+            }
+          } catch (error) {}
+        }
+
+        function getTime(date) {
+          try {
+            return date.toLocaleTimeString('en-us', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).toLowerCase().replace(',', '')
+          } catch (error) {
+            return 'Error'
+          }
+        }
+    </script>
+  </body>
+</html>
