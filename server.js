@@ -31,12 +31,12 @@ app.use(async (req, res, next) => {
                     }
                 } else if(name.startsWith('delete/')) {
                     let single = name.substring(7, name.length)
-                    if(single.includes('/') {
+                    if(single.includes('/')) {
                         res.end('Error')
                     } else {
                         res.end('Delete Success')
                     }
-                } else if(!name.includes('/') {
+                } else if(!name.includes('/')) {
                     res.sendFile(path.join(__dirname, '/index.html'))
                 } else {
                     res.end('Error')
