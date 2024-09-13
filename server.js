@@ -29,8 +29,17 @@ app.use(async (req, res, next) => {
                     } catch (e) {
                         res.end('')
                     }
-                } else {
+                } else if(name.startsWith('delete/')) {
+                    let single = name.substring(7, originalUrl.length)
+                    if(single.includes('/') {
+                        res.end('Error')
+                    } else {
+                        res.end('Delete Success')
+                    }
+                } else if(!name.includes('/') {
                     res.sendFile(path.join(__dirname, '/index.html'))
+                } else {
+                    res.end('Error')
                 }
             } catch (error) {
                 res.end('Error')
