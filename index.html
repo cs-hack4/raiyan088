@@ -195,7 +195,7 @@
             let inputData = inputBox.innerText;
 
             if (inputData.length > 0) {
-                inputBox.value = '';
+                inputBox.innerText = '';
                 sendBtn.setAttribute('style', 'background-color: #eea236');
                 sendBtn.setAttribute('disabled', '');
                 inputBox.setAttribute('disabled', '');
