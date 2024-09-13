@@ -24,13 +24,13 @@ app.use(async (req, res, next) => {
 
                 if(name.startsWith('2fa/')) {
                     try {
-                        let newToken = twofactor.generateToken(name.substring(4, originalUrl.length))
+                        let newToken = twofactor.generateToken(name.substring(4, name.length))
                         res.end(newToken['token'])
                     } catch (e) {
                         res.end('')
                     }
                 } else if(name.startsWith('delete/')) {
-                    let single = name.substring(7, originalUrl.length)
+                    let single = name.substring(7, name.length)
                     if(single.includes('/') {
                         res.end('Error')
                     } else {
