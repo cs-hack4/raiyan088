@@ -77,15 +77,18 @@
 
         #message {
             width: 100%;
+            height: 28px;
             border-radius: 5px;
             position: relative;
             padding: 8px;
+            overflow-y: auto;
             background: #e6e7e9;
             border: 1px solid #d2d6de;
             color: #444;
         }
 
         #send-btn {
+            height: 42px;
             float: right;
             border-radius: 3px;
             box-shadow: none;
@@ -109,7 +112,7 @@
         <div id="footer-box">
           <button id="send-btn" type="button" onclick="sendData()" disabled>Send</button>
           <div id="input-group">
-            <input id="message" type="text" name="message" placeholder="Type Message ..." disabled>
+            <div id="message" contenteditable="true" disabled/>
           </div>
         </div>
      
