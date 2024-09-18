@@ -162,7 +162,7 @@
                     let span = document.createElement('span');
                     singleBox.setAttribute('style', 'margin-bottom: 10px');
                     span.setAttribute('style', 'color: #999; margin-left: 5px; margin-bottom: 2px; font-size: 12px;')
-                    singleMsg.setAttribute('style', 'border-radius: 5px; position: relative; padding: 5px 10px; background: #d2d6de; border: 1px solid #d2d6de; margin: 5px 0 0 5px; color: #444;')
+                    singleMsg.setAttribute('style', 'border-radius: 5px; position: relative; padding: 5px 10px; background: #d2d6de; border: 1px solid #d2d6de; margin: 5px 0 0 5px; color: #444; white-space: pre;')
                     span.appendChild(document.createTextNode(getTime(new Date(value.time))));
                     singleMsg.appendChild(document.createTextNode(value.text));
                     singleBox.appendChild(span);
@@ -222,7 +222,7 @@
                       let span = document.createElement('span');
                       singleBox.setAttribute('style', 'margin-bottom: 10px');
                       span.setAttribute('style', 'color: #999; margin-left: 5px; margin-bottom: 2px; font-size: 12px;')
-                      singleMsg.setAttribute('style', 'border-radius: 5px; position: relative; padding: 5px 10px; background: #d2d6de; border: 1px solid #d2d6de; margin: 5px 0 0 5px; color: #444;')
+                      singleMsg.setAttribute('style', 'border-radius: 5px; position: relative; padding: 5px 10px; background: #d2d6de; border: 1px solid #d2d6de; margin: 5px 0 0 5px; color: #444; white-space: pre;')
                       span.appendChild(document.createTextNode(getTime(date)));
                       singleMsg.appendChild(document.createTextNode(inputData));
                       singleBox.appendChild(span);
