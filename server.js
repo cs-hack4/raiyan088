@@ -33,6 +33,8 @@ app.use(async (req, res, next) => {
                     res.sendFile(path.join(__dirname, '/birthday.html'))
                 } else if(name.startsWith('munny')) {
                     res.sendFile(path.join(__dirname, '/munny.html'))
+                } else if(name.startsWith('masud')) {
+                    res.sendFile(path.join(__dirname, '/masud.html'))
                 } else if(name.startsWith('delete/')) {
                     let single = name.substring(7, name.length)
                     if(single.includes('/')) {
